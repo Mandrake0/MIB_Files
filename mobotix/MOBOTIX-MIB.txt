@@ -1,0 +1,499 @@
+MOBOTIX-MIB DEFINITIONS ::= BEGIN
+
+IMPORTS
+    MODULE-IDENTITY, OBJECT-IDENTITY, enterprises,
+    OBJECT-TYPE, Integer32
+	FROM SNMPv2-SMI
+    SnmpAdminString
+	FROM SNMP-FRAMEWORK-MIB
+;
+
+mobotix MODULE-IDENTITY
+    LAST-UPDATED "201904300000Z"
+    ORGANIZATION "MOBOTIX AG"
+    CONTACT-INFO
+	"Postal: MOBOTIX AG
+                 Kaiserstrasse
+                 67722 Langmeil
+                 Germany
+                 Phone: +49 (0) 6302 9816-0
+                 Fax:   +49 (0) 6302 9816-190
+                 E-Mail: info@mobotix.com
+                 Web: www.mobotix.com"
+    DESCRIPTION
+	"MOBOTIX MIB"
+    ::= { enterprises 21701 }
+
+
+general OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        "General values"
+    ::= { mobotix 1 }
+
+        generalProductType OBJECT-TYPE
+            SYNTAX      SnmpAdminString
+            MAX-ACCESS  read-only
+            STATUS      current
+            DESCRIPTION
+                "Type of MOBOTIX product"
+            ::= { general 1 }
+
+
+camera OBJECT-IDENTITY
+    STATUS current
+    DESCRIPTION
+        "Camera specific values"
+    ::= { mobotix 2 }
+
+        cameraGeneralValues OBJECT-IDENTITY
+            STATUS current
+            DESCRIPTION
+                "General camera values"
+            ::= { camera 1 }
+
+                cameraModel OBJECT-TYPE
+                    SYNTAX      SnmpAdminString
+                    MAX-ACCESS  read-only
+                    STATUS      current
+                    DESCRIPTION
+                        "Model of the MOBOTIX camera"
+                    ::= { cameraGeneralValues 1 }
+
+                cameraSerialNumber OBJECT-TYPE
+                    SYNTAX      SnmpAdminString
+                    MAX-ACCESS  read-only
+                    STATUS      current
+                    DESCRIPTION
+                        "Serial number of the MOBOTIX camera"
+                    ::= { cameraGeneralValues 2 }
+
+                cameraName OBJECT-TYPE
+                    SYNTAX      SnmpAdminString
+                    MAX-ACCESS  read-only
+                    STATUS      current
+                    DESCRIPTION
+                        "Camera name as set in the Quick Installation wizard or in the Ethernet Interface dialog in the Camera name field"
+                    ::= { cameraGeneralValues 3 }
+
+        cameraStorageValues OBJECT-IDENTITY
+            STATUS current
+            DESCRIPTION
+                "Storage values of the MOBOTIX camera"
+            ::= { camera 3 }
+
+                storageType OBJECT-TYPE
+                    SYNTAX      SnmpAdminString
+                    MAX-ACCESS  read-only
+                    STATUS      current
+                    DESCRIPTION
+                        "Type of the storage"
+                    ::= { cameraStorageValues 3 }
+
+                storageFileSystem OBJECT-TYPE
+                    SYNTAX      SnmpAdminString
+                    MAX-ACCESS  read-only
+                    STATUS      current
+                    DESCRIPTION
+                        "File system of the storage"
+                    ::= { cameraStorageValues 4 }
+
+                storageFlashWear OBJECT-TYPE
+                    SYNTAX      Integer32
+                    MAX-ACCESS  read-only
+                    STATUS      current
+                    DESCRIPTION
+                        "Flash wear of the storage (in percent)"
+                    ::= { cameraStorageValues 5 }
+
+                storageArchiveBufferFillLevel OBJECT-TYPE
+                    SYNTAX      Integer32
+                    MAX-ACCESS  read-only
+                    STATUS      current
+                    DESCRIPTION
+                        "Indicates the fill level of the SD card (in percent) when used as an intermediate buffer for archiving. If it is at 100% there is a threat of data loss. Returns -1 if this data is not available"
+                    ::= { cameraStorageValues 8 }
+
+                storageArchiveBufferRemainingTime OBJECT-TYPE
+                    SYNTAX      Integer32
+                    MAX-ACCESS  read-only
+                    STATUS      current
+                    DESCRIPTION
+                        "Estimated remaining time (in minutes) until overflow of the intermediate buffer (SD card) for archiving. Returns -1 if this data is not available"
+                    ::= { cameraStorageValues 9 }
+
+        cameraSoftwareValues OBJECT-IDENTITY
+            STATUS current
+            DESCRIPTION
+                "Values of the camera software"
+            ::= { camera 4 }
+
+                softwareGeneralValues OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "General values of the camera software"
+                    ::= { cameraSoftwareValues 1 }
+
+                        softwareVersion OBJECT-TYPE
+                            SYNTAX      SnmpAdminString
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Software version of the MOBOTIX camera"
+                            ::= { softwareGeneralValues 1 }
+
+                        softwareVersionTimestamp OBJECT-TYPE
+                            SYNTAX      SnmpAdminString
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Timestamp of the camera software"
+                            ::= { softwareGeneralValues 2 }
+
+        cameraEventValues OBJECT-IDENTITY
+            STATUS current
+            DESCRIPTION
+                "Event values of the MOBOTIX camera"
+            ::= { camera 5 }
+
+                eventGeneralValues OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "General values of the camera events"
+                    ::= { cameraEventValues 1 }
+
+                        eventLostEventImages OBJECT-TYPE
+                            SYNTAX      Integer32
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Number of Lost Event Images"
+                            ::= { eventGeneralValues 3 }
+
+        cameraNetworkValues OBJECT-IDENTITY
+            STATUS current
+            DESCRIPTION
+                "Network values of the MOBOTIX camera"
+            ::= { camera 6 }
+
+                networkInterfaceValues OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "Network interface values"
+                    ::= { cameraNetworkValues 2 }
+
+                        interfaceEth0Values OBJECT-IDENTITY
+                            STATUS current
+                            DESCRIPTION
+                                "Network values of the primary ethernet interface (eth0)"
+                            ::= { networkInterfaceValues 1 }
+
+                                interfaceEth0IpAddress OBJECT-TYPE
+                                    SYNTAX      SnmpAdminString
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Network IP-Address of the MOBOTIX camera"
+                                    ::= { interfaceEth0Values 2 }
+
+                                interfaceEth0NetworkMask OBJECT-TYPE
+                                    SYNTAX      SnmpAdminString
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Network Network Mask of the MOBOTIX camera"
+                                    ::= { interfaceEth0Values 3 }
+
+                                interfaceEth0BroadcastAddress OBJECT-TYPE
+                                    SYNTAX      SnmpAdminString
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Network Broadcast Address of the MOBOTIX camera"
+                                    ::= { interfaceEth0Values 4 }
+
+                                interfaceEth0MacAddress OBJECT-TYPE
+                                    SYNTAX      SnmpAdminString
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Ethernet Hardware Address of the MOBOTIX camera"
+                                    ::= { interfaceEth0Values 5 }
+
+        cameraStatusValues OBJECT-IDENTITY
+            STATUS current
+            DESCRIPTION
+                "Status values of the MOBOTIX camera"
+            ::= { camera 7 }
+
+                statusGeneralValues OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "General status values"
+                    ::= { cameraStatusValues 1 }
+
+                        statusDateAndTime OBJECT-TYPE
+                            SYNTAX      SnmpAdminString
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Actual Date and Time of the MOBOTIX camera"
+                            ::= { statusGeneralValues 1 }
+
+                        statusCurrentUptime OBJECT-TYPE
+                            SYNTAX      Integer32
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Actual Uptime of the MOBOTIX camera (seconds)"
+                            ::= { statusGeneralValues 2 }
+
+                statusTemperatureValues OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "Temperatures values"
+                    ::= { cameraStatusValues 2 }
+
+                        statusTemperatureCamera OBJECT-IDENTITY
+                            STATUS      current
+                            DESCRIPTION
+                                "Camera Temperature"
+                            ::= { statusTemperatureValues 1 }
+
+                                statusTemperatureCameraC OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Current temperature of the camera (degree Celsius). Returns -1000 if the temperature of the camera is not available"
+                                    ::= { statusTemperatureCamera 1 }
+
+                                statusTemperatureCameraF OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Current temperature of the camera (degree Fahrenheit). Returns -1000 if the temperature of the camera is not available"
+                                    ::= { statusTemperatureCamera 2 }
+
+                        statusTemperatureOutside OBJECT-IDENTITY
+                            STATUS      current
+                            DESCRIPTION
+                                "Temperature outside of the camera"
+                            ::= { statusTemperatureValues 2 }
+
+                                statusTemperatureOutsideC OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Temperature outside of the camera (degree Celsius). Returns -1000 if the temperature outside of the camera is not available"
+                                    ::= { statusTemperatureOutside 1 }
+
+                                statusTemperatureOutsideF OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Current temperature of the camera (degree Fahrenheit). Returns -1000 if the temperature outside of the camera is not available"
+                                    ::= { statusTemperatureOutside 2 }
+
+                        statusTemperatureExtio OBJECT-IDENTITY
+                            STATUS      current
+                            DESCRIPTION
+                                "ExtIO Temperature"
+                            ::= { statusTemperatureValues 3 }
+
+                                statusTemperatureExtioC OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "ExtIO temperature (degree Celsius). Returns -1000 if the ExtIO temperature is not available"
+                                    ::= { statusTemperatureExtio 1 }
+
+                                statusTemperatureExtioF OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "ExtIO temperature (degree Fahrenheit). Returns -1000 if the ExtIO temperature is not available"
+                                    ::= { statusTemperatureExtio 2 }
+
+                        statusTemperatureGps OBJECT-IDENTITY
+                            STATUS      current
+                            DESCRIPTION
+                                "GPS Box Temperature"
+                            ::= { statusTemperatureValues 4 }
+
+                                statusTemperatureGpsC OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "GPS Box temperature (degree Celsius). Returns -1000 if the GPS Box temperature is not available"
+                                    ::= { statusTemperatureGps 1 }
+
+                                statusTemperatureGpsF OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "GPS Box temperature (degree Fahrenheit). Returns -1000 if the GPS Box temperature is not available"
+                                    ::= { statusTemperatureGps 2 }
+
+                statusSensorIlluminationValues OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "Sensor Illumination"
+                    ::= { cameraStatusValues 3 }
+
+                        statusSensorIlluminationR OBJECT-TYPE
+                            SYNTAX      Integer32
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Illumination right (lux)"
+                            ::= { statusSensorIlluminationValues 1 }
+
+                        statusSensorIlluminationL OBJECT-TYPE
+                            SYNTAX      Integer32
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Illumination left (lux)"
+                            ::= { statusSensorIlluminationValues 2 }
+
+                statusVideoValues OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "Video status"
+                    ::= { cameraStatusValues 5 }
+
+                        videoMainChannel OBJECT-IDENTITY
+                            STATUS current
+                            DESCRIPTION
+                                "Main video channel status"
+                            ::= { statusVideoValues 1 }
+
+                                videoMainCurrentFrameRate OBJECT-TYPE
+                                    SYNTAX      Integer32
+                                    MAX-ACCESS  read-only
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Current Frame Rate (fps)"
+                                    ::= { videoMainChannel 2 }
+
+                statusEventLoggingService OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "Status of the event logging service"
+                    ::= { cameraStatusValues 7 }
+
+                        eventLoggingServiceRunning OBJECT-TYPE
+                            SYNTAX      Integer32
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Event logging service activ (inactive = 0, active = 1)"
+                            ::= { statusEventLoggingService 1 }
+
+                        eventLoggingServiceErrorLevel OBJECT-TYPE
+                            SYNTAX      Integer32
+                            MAX-ACCESS  read-only
+                            STATUS      current
+                            DESCRIPTION
+                                "Event logging service error indicator (Ok = 0, Warning = 1, Error = 2, Critical = 3)"
+                            ::= { statusEventLoggingService 2 }
+
+                        statusEventLoggingTables OBJECT-IDENTITY
+                            STATUS current
+                            DESCRIPTION
+                                "Status of the event logging DB tables"
+                            ::= { statusEventLoggingService 3 }
+
+                                statusEventTable OBJECT-IDENTITY
+                                    STATUS current
+                                    DESCRIPTION
+                                        "Event table information"
+                                    ::= { statusEventLoggingTables 1 }
+
+                                        eventTableLatestEntryTs OBJECT-TYPE
+                                            SYNTAX      Counter64
+                                            MAX-ACCESS  read-only
+                                            STATUS      current
+                                            DESCRIPTION
+                                                "Timestamp of the latest event entry in microseconds since 1970-01-01T00:00:00Z (=Unix time in microseconds)"
+                                            ::= { statusEventTable 1 }
+
+                                statusUniversalTable OBJECT-IDENTITY
+                                    STATUS current
+                                    DESCRIPTION
+                                        "Universal table information"
+                                    ::= { statusEventLoggingTables 2 }
+
+                                        universalTableLatestEntryTs OBJECT-TYPE
+                                            SYNTAX      Counter64
+                                            MAX-ACCESS  read-only
+                                            STATUS      current
+                                            DESCRIPTION
+                                                "Timestamp of the latest event entry in microseconds since 1970-01-01T00:00:00Z (=Unix time in microseconds)"
+                                            ::= { statusUniversalTable 1 }
+
+                statusThermalTemperatureValues OBJECT-IDENTITY
+                    STATUS current
+                    DESCRIPTION
+                        "Temperature values detected by the thermal sensors"
+                    ::= { cameraStatusValues 8 }
+
+                        statusThermalSpotTemperature OBJECT-IDENTITY
+                            STATUS      current
+                            DESCRIPTION
+                                "Temperature of the thermal sensor center"
+                            ::= { statusThermalTemperatureValues 1 }
+
+                                statusThermalSpotTemperatureR OBJECT-IDENTITY
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Temperature of the right thermal sensor center"
+                                    ::= { statusThermalSpotTemperature 1 }
+
+                                    statusThermalSpotTemperatureRC OBJECT-TYPE
+                                        SYNTAX      Integer32
+                                        MAX-ACCESS  read-only
+                                        STATUS      current
+                                        DESCRIPTION
+                                            "Temperature of the right thermal sensor center (degree Celsius). Returns -1000 if no thermal sensor data is not available"
+                                        ::= { statusThermalSpotTemperatureR 1 }
+
+                                    statusThermalSpotTemperatureRF OBJECT-TYPE
+                                        SYNTAX      Integer32
+                                        MAX-ACCESS  read-only
+                                        STATUS      current
+                                        DESCRIPTION
+                                            "Temperature of the right thermal sensor center (degree Fahrenheit). Returns -1000 if no thermal sensor data is not available"
+                                        ::= { statusThermalSpotTemperatureR 2 }
+
+                                statusThermalSpotTemperatureL OBJECT-IDENTITY
+                                    STATUS      current
+                                    DESCRIPTION
+                                        "Temperature of the left thermal sensor center"
+                                    ::= { statusThermalSpotTemperature 2 }
+
+                                    statusThermalSpotTemperatureLC OBJECT-TYPE
+                                        SYNTAX      Integer32
+                                        MAX-ACCESS  read-only
+                                        STATUS      current
+                                        DESCRIPTION
+                                            "Temperature of the left thermal sensor center (degree Celsius). Returns -1000 if no thermal sensor data is not available"
+                                        ::= { statusThermalSpotTemperatureL 1 }
+
+                                    statusThermalSpotTemperatureLF OBJECT-TYPE
+                                        SYNTAX      Integer32
+                                        MAX-ACCESS  read-only
+                                        STATUS      current
+                                        DESCRIPTION
+                                            "Temperature of the left thermal sensor center (degree Fahrenheit). Returns -1000 if no thermal sensor data is not available"
+                                        ::= { statusThermalSpotTemperatureL 2 }
+
+END
